@@ -28,5 +28,7 @@ namespace EsportApp
         public int Headshots { get; }
         public int Rounds_won { get; }
         public bool Won { get; }
+
+
     }
 }
