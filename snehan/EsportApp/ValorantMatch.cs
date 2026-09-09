@@ -8,13 +8,13 @@ namespace EsportApp
 {
     public class ValorantMatch
     {
-        public ValorantMatch(string player, string agent, int kills, int deaths, int assits, int headshots, int rounds_won, bool won)
+        public ValorantMatch(string player, string agent, int kills, int deaths, int assists, int headshots, int rounds_won, bool won)
         {
             Player = player;
             Agent = agent;
             Kills = kills;
             Deaths = deaths;
-            Assits = assits;
+            Assists = assists;
             Headshots = headshots;
             Rounds_won = rounds_won;
             Won = won;
@@ -24,7 +24,7 @@ namespace EsportApp
         public string Agent { get; }
         public int Kills { get; }
         public int Deaths { get; }
-        public int Assits { get; }
+        public int Assists { get; }
         public int Headshots { get; }
         public int Rounds_won { get; }
         public bool Won { get; }

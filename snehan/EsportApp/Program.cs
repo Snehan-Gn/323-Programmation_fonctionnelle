@@ -27,7 +27,8 @@ Cs2Match ParseCs2(string[] cols) => new Cs2Match(
 
 LolMatch ParseLol(string[] cols) => new LolMatch(
     cols[1],              
-    cols[2],              
+    cols[2],  
+    cols[3],
     int.Parse(cols[4]),   
     int.Parse(cols[5]),   
     int.Parse(cols[6]),   
@@ -46,9 +47,17 @@ Console.WriteLine($"LoL : {lol.Count} matchs");
 
 
 var raphaelGenerated = MatchGenerator.GenerateCs2("Raphaël", 20);
+var michelGenerated = MatchGenerator.GenerateValorant("Michel", 20);
+var gabrielGenerated = MatchGenerator.GenerateLol("Gabriel", 20);
 
 Func<Cs2Match, bool> isValid = m =>
     m.Kills + m.Assists <= 50;
 
 var raphaelValid = raphaelGenerated.Filter(isValid);
 Console.WriteLine($"Avant : {raphaelGenerated.Count}, après : {raphaelValid.Count}");
+
+var michelValid = michelGenerated.Where(m => m.Kills + m.Assists <= 50);
+
+ExportCSV.ExportCs2(raphaelValid, "raphael_generated.csv");
+ExportCSV.ExportValorant(michelGenerated, "michel_generated.csv");
+ExportCSV.ExportLol(gabrielGenerated, "gabriel_generated.csv");
