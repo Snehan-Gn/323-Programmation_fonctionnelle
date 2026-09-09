@@ -28,6 +28,11 @@ namespace DataSeries
                 return new DataPoint<T>(DateTime.Parse(cols[0]), parser(cols));
             }));
         }
+
+        public DataSeries<T> Filter(Func<T, bool> predicate)
+        {
+            return new DataSeries<T>(_data.Where(dp => predicate(dp.Value)));
+        }
     }
 
 }

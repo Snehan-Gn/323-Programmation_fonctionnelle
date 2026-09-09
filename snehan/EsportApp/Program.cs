@@ -1,6 +1,7 @@
 ﻿// See https://aka.ms/new-console-template for more information
 using DataSeries;
 using EsportApp;
+using System.Linq;
 
 ValorantMatch ParseValorant(string[] cols) => new ValorantMatch(
     cols[1],              
@@ -42,3 +43,12 @@ var lol = DataSeries<LolMatch>.FromCsv("data/lol.csv", ParseLol);
 Console.WriteLine($"Valorant : {valorant.Count} matchs");
 Console.WriteLine($"CS2  {cs2.Count} matchs");
 Console.WriteLine($"LoL : {lol.Count} matchs");
+
+
+var raphaelGenerated = MatchGenerator.GenerateCs2("Raphaël", 20);
+
+Func<Cs2Match, bool> isValid = m =>
+    m.Kills + m.Assists <= 50;
+
+var raphaelValid = raphaelGenerated.Filter(isValid);
+Console.WriteLine($"Avant : {raphaelGenerated.Count}, après : {raphaelValid.Count}");
