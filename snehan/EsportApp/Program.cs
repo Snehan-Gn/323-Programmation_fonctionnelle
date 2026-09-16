@@ -62,11 +62,13 @@ var lolValid = lol.RemoveOutliers(m =>
     m.Cs >= 0
 );
 
-Console.WriteLine($"Valorant : {valorant.Count} matchs");
-Console.WriteLine($"CS2  {cs2.Count} matchs");
-Console.WriteLine($"LoL : {lol.Count} matchs");
+Console.WriteLine($"Valorant : {valorantValid.Count} matchs");
+Console.WriteLine($"CS2  {cs2Valid.Count} matchs");
+Console.WriteLine($"LoL : {lolValid.Count} matchs");
+Console.WriteLine(valorantValid.HasAny(m => m.Kills > 20));
+Console.WriteLine(lolValid.AllMatch(m => m.Deaths >= 1));
 
-
+/*
 var raphaelGenerated = MatchGenerator.GenerateCs2("Raphaël", 20);
 var michelGenerated = MatchGenerator.GenerateValorant("Michel", 20);
 var gabrielGenerated = MatchGenerator.GenerateLol("Gabriel", 20);
@@ -80,3 +82,4 @@ Console.WriteLine($"Avant : {raphaelGenerated.Count}, après : {raphaelValid.Cou
 ExportCSV.ExportCs2(raphaelValid, "raphael_generated.csv");
 ExportCSV.ExportValorant(michelGenerated, "michel_generated.csv");
 ExportCSV.ExportLol(gabrielGenerated, "gabriel_generated.csv");
+*/

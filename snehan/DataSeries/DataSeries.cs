@@ -39,6 +39,10 @@ namespace DataSeries
             => new DataSeries<T>(_data.Where(predicate));
         public DataSeries<T> RemoveOutliers(Func<T, bool> isValid)
             => Filter(isValid);
+        public bool HasAny(Func<T, bool> predicate)
+            => _data.Any(predicate);
+        public bool AllMatch(Func<T, bool> predicate)
+            => _data.All(predicate);
     }
 
 }
