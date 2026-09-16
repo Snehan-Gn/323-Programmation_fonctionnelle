@@ -56,7 +56,8 @@ Func<Cs2Match, bool> isValid = m =>
 var raphaelValid = raphaelGenerated.Filter(isValid);
 Console.WriteLine($"Avant : {raphaelGenerated.Count}, après : {raphaelValid.Count}");
 
-var michelValid = michelGenerated.Where(m => m.Kills + m.Assists <= 50);
+var wins = valorant.Filter(m => m.Won);
+Console.WriteLine(wins.Count);
 
 ExportCSV.ExportCs2(raphaelValid, "raphael_generated.csv");
 ExportCSV.ExportValorant(michelGenerated, "michel_generated.csv");
