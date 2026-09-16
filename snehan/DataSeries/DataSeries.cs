@@ -35,9 +35,7 @@ namespace DataSeries
         }
 
         public DataSeries<T> Filter(Func<T, bool> predicate)
-        {
-            return new DataSeries<T>(_data.Where(dp => predicate(dp.Value)));
-        }
+            => DataSeries<T>.From(_data.Where(dp => predicate(dp.Value)));
     }
 
 }
