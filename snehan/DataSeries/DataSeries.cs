@@ -9,9 +9,9 @@ namespace DataSeries
 {
     public class DataSeries<T> : IEnumerable<T>
     {
-        private readonly IEnumerable<T> _data;
+        private List<T> _data;
 
-        private DataSeries(IEnumerable<T> data) => _data = data;
+        private DataSeries(IEnumerable<T> data) => _data = data.ToList();
 
         public static DataSeries<T> From(IEnumerable<T> source)
             => new DataSeries<T>(source);
@@ -35,14 +35,19 @@ namespace DataSeries
             return new DataSeries<T>(parsedData);
         }
 
-        public DataSeries<T> Filter(Func<T, bool> predicate)
+        public DataSeries<T> Outliers(Func<T, bool> predicate)
             => new DataSeries<T>(_data.Where(predicate));
-        public DataSeries<T> RemoveOutliers(Func<T, bool> isValid)
-            => Filter(isValid);
+
+        public void Sanitize(Func<T, bool> predicate)
+        {
+            _data.RemoveAll(item => predicate(item));
+        }
+
         public bool HasAny(Func<T, bool> predicate)
             => _data.Any(predicate);
         public bool AllMatch(Func<T, bool> predicate)
             => _data.All(predicate);
+
     }
 
 }

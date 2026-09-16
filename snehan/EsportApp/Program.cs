@@ -50,29 +50,29 @@ namespace EsportApp
             var cs2 = DataSeries<Cs2Match>.FromCsv("data/cs2.csv", ParseCs2);
             var lol = DataSeries<LolMatch>.FromCsv("data/lol.csv", ParseLol);
 
-            var valorantValid = valorant.RemoveOutliers(m =>
-                m.Kills >= 0 && m.Kills <= 50 &&
-                m.Deaths >= 1 && m.Deaths <= 30 &&
-                m.Assists >= 0
+            valorant.Sanitize(m =>
+                m.Kills < 40 || m.Kills > 50 ||
+                m.Deaths < 0 || m.Deaths > 30 ||
+                m.Assists < 0
             );
 
-            var cs2Valid = cs2.RemoveOutliers(m =>
-                m.Kills + m.Assists <= 50 &&
-                m.Deaths >= 1
+            cs2.Sanitize(m =>
+                m.Kills + m.Assists > 50 ||
+                m.Deaths < 0
             );
 
-            var lolValid = lol.RemoveOutliers(m =>
-                m.Kills <= 10 &&
-                m.Deaths >= 1 &&
-                m.Assists >= 0 &&
-                m.Cs >= 0
+            lol.Sanitize(m =>
+                m.Kills > 10 ||
+                m.Deaths < 1 ||
+                m.Assists < 0 ||
+                m.Cs < 0
             );
 
-            Console.WriteLine($"Valorant : {valorantValid.Count} matchs");
-            Console.WriteLine($"CS2  {cs2Valid.Count} matchs");
-            Console.WriteLine($"LoL : {lolValid.Count} matchs");
-            Console.WriteLine(valorantValid.HasAny(m => m.Kills > 20));
-            Console.WriteLine(lolValid.AllMatch(m => m.Deaths >= 1));
+            Console.WriteLine($"Valorant : {valorant.Count} matchs");
+            Console.WriteLine($"CS2  {cs2.Count} matchs");
+            Console.WriteLine($"LoL : {lol.Count} matchs");
+            Console.WriteLine(valorant.HasAny(m => m.Kills > 20));
+            Console.WriteLine(lol.AllMatch(m => m.Deaths >= 1));
 
             /*
             var raphaelGenerated = MatchGenerator.GenerateCs2("Raphaël", 20);
