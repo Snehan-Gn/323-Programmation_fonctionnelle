@@ -2,8 +2,6 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace EsportApp
 {
@@ -18,12 +16,18 @@ namespace EsportApp
 
             return DataSeries<Cs2Match>.From(
                 Enumerable.Range(1, count)
-                    .Select(i => new DataPoint<Cs2Match>(
+                    .Select(i => new Cs2Match(
                         start.AddDays(i),
-                        new Cs2Match(player, maps[rng.Next(maps.Length)], sides[rng.Next(2)], rng.Next(0, 50), rng.Next(0, 50), rng.Next(0, 50), rng.Next(0, 12), rng.Next(2) == 0)
+                        player,
+                        maps[rng.Next(maps.Length)],
+                        sides[rng.Next(2)],
+                        rng.Next(0, 50),
+                        rng.Next(0, 50),
+                        rng.Next(0, 50),
+                        rng.Next(0, 12),
+                        rng.Next(2) == 0
                     ))
             );
-
         }
 
         public static DataSeries<ValorantMatch> GenerateValorant(string player, int count, int seed = 42)
@@ -34,12 +38,18 @@ namespace EsportApp
 
             return DataSeries<ValorantMatch>.From(
                 Enumerable.Range(1, count)
-                    .Select(i => new DataPoint<ValorantMatch>(
+                    .Select(i => new ValorantMatch(
                         start.AddDays(i),
-                        new ValorantMatch(player, agents[rng.Next(agents.Length)], rng.Next(0, 50), rng.Next(0, 50), rng.Next(0, 50), rng.Next(0, 50), rng.Next(0,12), rng.Next(2) == 0)
+                        player,
+                        agents[rng.Next(agents.Length)],
+                        rng.Next(0, 50),
+                        rng.Next(0, 50),
+                        rng.Next(0, 50),
+                        rng.Next(0, 50),
+                        rng.Next(0, 12),
+                        rng.Next(2) == 0
                     ))
             );
-
         }
 
         public static DataSeries<LolMatch> GenerateLol(string player, int count, int seed = 42)
@@ -51,12 +61,19 @@ namespace EsportApp
 
             return DataSeries<LolMatch>.From(
                 Enumerable.Range(1, count)
-                    .Select(i => new DataPoint<LolMatch>(
+                    .Select(i => new LolMatch(
                         start.AddDays(i),
-                        new LolMatch(player, champions[rng.Next(champions.Length)], roles[rng.Next(roles.Length)], rng.Next(0, 50), rng.Next(0, 50), rng.Next(0, 50), rng.Next(0, 300), rng.Next(0,100), rng.Next(2) == 0)
+                        player,
+                        champions[rng.Next(champions.Length)],
+                        roles[rng.Next(roles.Length)],
+                        rng.Next(0, 50),
+                        rng.Next(0, 50),
+                        rng.Next(0, 50),
+                        rng.Next(0, 300),
+                        rng.Next(0, 100),
+                        rng.Next(2) == 0
                     ))
             );
-
         }
     }
 }

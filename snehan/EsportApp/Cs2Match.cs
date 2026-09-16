@@ -8,8 +8,9 @@ namespace EsportApp
 {
     public class Cs2Match
     {
-        public Cs2Match(string player, string map, string startSide, int kills, int deaths, int assists, int mvps, bool won)
+        public Cs2Match(DateTime timeStamp, string player, string map, string startSide, int kills, int deaths, int assists, int mvps, bool won)
         {
+            TimeStamp = timeStamp;
             Player = player;
             Map = map;
             StartSide = startSide;
@@ -20,6 +21,7 @@ namespace EsportApp
             Won = won;
         }
 
+        public DateTime TimeStamp { get; }
         public string Player { get; }
         public string Map { get; }
         public string StartSide { get; }

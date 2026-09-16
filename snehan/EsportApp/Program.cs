@@ -4,42 +4,63 @@ using EsportApp;
 using System.Linq;
 
 ValorantMatch ParseValorant(string[] cols) => new ValorantMatch(
-    cols[1],              
-    cols[2],              
-    int.Parse(cols[3]),   
-    int.Parse(cols[4]),   
-    int.Parse(cols[5]),   
-    int.Parse(cols[6]),   
-    int.Parse(cols[7]),   
-    bool.Parse(cols[8])   
+    DateTime.Parse(cols[0]),
+    cols[1],
+    cols[2],
+    int.Parse(cols[3]),
+    int.Parse(cols[4]),
+    int.Parse(cols[5]),
+    int.Parse(cols[6]),
+    int.Parse(cols[7]),
+    bool.Parse(cols[8])
 );
 
 Cs2Match ParseCs2(string[] cols) => new Cs2Match(
-    cols[1],              
-    cols[2],              
-    cols[3],              
-    int.Parse(cols[4]),   
-    int.Parse(cols[5]),   
-    int.Parse(cols[6]),   
-    int.Parse(cols[7]),   
-    bool.Parse(cols[8])   
+    DateTime.Parse(cols[0]),
+    cols[1],
+    cols[2],
+    cols[3],
+    int.Parse(cols[4]),
+    int.Parse(cols[5]),
+    int.Parse(cols[6]),
+    int.Parse(cols[7]),
+    bool.Parse(cols[8])
 );
 
 LolMatch ParseLol(string[] cols) => new LolMatch(
-    cols[1],              
-    cols[2],  
+    DateTime.Parse(cols[0]),
+    cols[1],
+    cols[2],
     cols[3],
-    int.Parse(cols[4]),   
-    int.Parse(cols[5]),   
-    int.Parse(cols[6]),   
-    int.Parse(cols[7]),   
-    int.Parse(cols[8]),   
-    bool.Parse(cols[9])   
+    int.Parse(cols[4]),
+    int.Parse(cols[5]),
+    int.Parse(cols[6]),
+    int.Parse(cols[7]),
+    int.Parse(cols[8]),
+    bool.Parse(cols[9])
 );
 
 var valorant = DataSeries<ValorantMatch>.FromCsv("data/valorant.csv", ParseValorant);
 var cs2 = DataSeries<Cs2Match>.FromCsv("data/cs2.csv", ParseCs2);
 var lol = DataSeries<LolMatch>.FromCsv("data/lol.csv", ParseLol);
+
+var valorantValid = valorant.RemoveOutliers(m =>
+    m.Kills >= 0 && m.Kills <= 50 &&
+    m.Deaths >= 1 && m.Deaths <= 30 &&
+    m.Assists >= 0
+);
+
+var cs2Valid = cs2.RemoveOutliers(m =>
+    m.Kills + m.Assists <= 50 &&
+    m.Deaths >= 1
+);
+
+var lolValid = lol.RemoveOutliers(m =>
+    m.Kills <= 10 &&
+    m.Deaths >= 1 &&
+    m.Assists >= 0 &&
+    m.Cs >= 0
+);
 
 Console.WriteLine($"Valorant : {valorant.Count} matchs");
 Console.WriteLine($"CS2  {cs2.Count} matchs");
@@ -55,9 +76,6 @@ Func<Cs2Match, bool> isValid = m =>
 
 var raphaelValid = raphaelGenerated.Filter(isValid);
 Console.WriteLine($"Avant : {raphaelGenerated.Count}, après : {raphaelValid.Count}");
-
-var wins = valorant.Filter(m => m.Won);
-Console.WriteLine(wins.Count);
 
 ExportCSV.ExportCs2(raphaelValid, "raphael_generated.csv");
 ExportCSV.ExportValorant(michelGenerated, "michel_generated.csv");
